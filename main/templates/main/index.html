@@ -1,0 +1,190 @@
+{% extends "main/base.html" %}
+        <!-- Header Section End -->
+
+{% block content %}
+        <!-- Banner Section Start -->
+        <section class="banner--section">
+            <!-- Banner Slider Start -->
+            <div class="banner--slider owl-carousel" data-owl-loop="false">
+                <!-- Banner Item Start -->
+                <div class="banner--item" data-bg-img="img/banner-img/home-version-3/slider-bg-01.jpg" data-overlay="0.5">
+                    <div class="vc--parent">
+                        <div class="vc--child">
+                            <div class="container">
+                                <div class="row row--md-vc">
+                                    <div class="col-md-7">
+                                        <!-- Banner Content Start -->
+                                        <div class="banner--content pt--70 pb--80">
+                                            <div class="title">
+                                                <h1 class="h2 text-white">Welcome To Community</h1>
+                                            </div>
+
+                                            <div class="sub-title">
+                                                <h2 class="h1 text-white">Connect, Share &amp; Engage</h2>
+                                            </div>
+
+                                            <div class="desc fs--16">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum aspernatur repudiandae praesentium, accusantium quo eaque porro ut at corporis, ipsa omnis vero minima aliquam nulla, eos dolorem provident, deserunt asperiores!</p>
+                                            </div>
+
+                                            <div class="action text-uppercase">
+                                                <a href="#" class="btn btn-white">Learn More</a>
+                                                <a href="#" class="btn btn-primary">See Members</a>
+                                            </div>
+                                        </div>
+                                        <!-- Banner Content End -->
+                                    </div>
+                                    <div class="col-md-4 col-md-offset-1 col-xs-8 col-xs-offset-2 col-xxs-12">
+                                        <!-- Widget Start -->
+                                        <div class="widget">
+                                            <h2 class="h4 fw--700 widget--title"> I'm looking for material in</h2>
+
+                                            <!-- Buddy Finder Widget Start -->
+                                            <div class="buddy-finder--widget">
+                                                <form action="{% url 'main:material_search' %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <span class="text-darker ff--primary fw--500">Level</span>
+
+                                                                    <select name="level" class="form-control form-sm" data-trigger="selectmenu">
+                                                                        {% for level in levels %}
+                                                                        <option value="{{ level }}">{{ level }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <span class="text-darker ff--primary fw--500">Faculty</span>
+
+                                                                    <select name="faculty" class="form-control form-sm" data-trigger="selectmenu">
+                                                                        {% for faculty in faculties %}
+                                                                        <option value="{{ faculty.name }}">{{ faculty.name }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <span class="text-darker ff--primary fw--500">Department</span>
+
+                                                                    <select name="department" class="form-control form-sm" data-trigger="selectmenu">
+                                                                        {% for department in departments %}
+                                                                        <option value="{{ department.name }}">{{ department.name }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <button type="submit" class="btn btn-primary">Search</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <!-- Buddy Finder Widget End -->
+                                        </div>
+                                        <!-- Widget End -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Banner Item End -->
+            </div>
+            <!-- Banner Slider End -->
+        </section>
+        <!-- Banner Section End -->
+
+        <!-- Features Section Start -->
+        <section class="section bg-lighter pt--80 pb--40">
+            <div class="container">
+                <div class="row AdjustRow">
+                    <div class="col-md-3 col-xs-6 col-xxs-12 pb--40">
+                        <!-- Feature Item Start -->
+                        <div class="feature--item bg-default text-center">
+                            <div class="title">
+                                <h2 class="h1 ff--default text-primary"><span data-trigger="counterup">530</span>k+</h2>
+                            </div>
+
+                            <div class="sub-title">
+                                <h3 class="h2 fs--16">Stories / Topics Created</h3>
+                            </div>
+
+                            <div class="desc">
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                            </div>
+                        </div>
+                        <!-- Feature Item End -->
+                    </div>
+
+                    <div class="col-md-3 col-xs-6 col-xxs-12 pb--40">
+                        <!-- Feature Item Start -->
+                        <div class="feature--item bg-default text-center">
+                            <div class="title">
+                                <h2 class="h1 ff--default text-primary"><span data-trigger="counterup">30</span>k+</h2>
+                            </div>
+
+                            <div class="sub-title">
+                                <h3 class="h2 fs--16">Member Online Right Now</h3>
+                            </div>
+
+                            <div class="desc">
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                            </div>
+                        </div>
+                        <!-- Feature Item End -->
+                    </div>
+
+                    <div class="col-md-3 col-xs-6 col-xxs-12 pb--40">
+                        <!-- Feature Item Start -->
+                        <div class="feature--item bg-default text-center">
+                            <div class="title">
+                                <h2 class="h1 ff--default text-primary"><span data-trigger="counterup">1.5</span>k+</h2>
+                            </div>
+
+                            <div class="sub-title">
+                                <h3 class="h2 fs--16">Active Group / Meeting Room</h3>
+                            </div>
+
+                            <div class="desc">
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                            </div>
+                        </div>
+                        <!-- Feature Item End -->
+                    </div>
+
+                    <div class="col-md-3 col-xs-6 col-xxs-12 pb--40">
+                        <!-- Feature Item Start -->
+                        <div class="feature--item bg-default text-center">
+                            <div class="title">
+                                <h2 class="h1 ff--default text-primary"><span data-trigger="counterup">03</span>k+</h2>
+                            </div>
+
+                            <div class="sub-title">
+                                <h3 class="h2 fs--16">New Event In Every Week</h3>
+                            </div>
+
+                            <div class="desc">
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                            </div>
+                        </div>
+                        <!-- Feature Item End -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Features Section End -->
+
+{% endblock %}
