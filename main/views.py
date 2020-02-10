@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .models import Department, Level, Material, University, Faculty
+from .models import Department, Level, Material, University, Faculty, Review
+from .forms import ReviewForm
+from django.contrib.auth.decorators import login_required
 import datetime
 # Create your views here.
 
@@ -17,6 +19,7 @@ def index(request):
     }
     return render(request, 'main/index.html', context)
 
+# @login_required
 def material_search(request):
     level = Level.objects.get(name=request.POST.get('level'))
     faculty = Faculty.objects.get(name=request.POST.get('faculty'))
@@ -42,18 +45,41 @@ def university_list(request):
 
 def university_detail(request, slug):
     university = University.objects.get(slug=slug)
+    departments = Department.objects.filter(university=university)
+    materials = Material.objects.filter(university=university)
     
     context = {
-        'university' : university
+        'university' : university,
+        'materials' : materials
     }
-    return render(request, 'main/university.html', context)
+    return render(request, 'main/university_detail.html', context)
 
 
 def course_list(request):
     pass
 
-def course_detail(request):
-    pass
+def course_detail(request, slug):
+    course = Material.objects.get(slug=slug)
+    reviews = Review.objects.filter(material=course)
+    related_courses = Material.objects.filter(department=course.department, university=course.university)[:4]
+
+    form = ReviewForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            review = request.POST.get('review')
+            form.instance.user = request.user
+            form.instance.material = course
+            form.save()
+
+            return redirect('main:course', slug=course.slug)
+
+    context = {
+        'course' : course,
+        'reviews' : reviews,
+        'form' : form,
+        'related_courses' : related_courses
+    }
+    return render(request, 'main/course-detail.html', context)
 
 
 def contact(request):

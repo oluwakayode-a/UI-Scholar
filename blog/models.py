@@ -29,6 +29,7 @@ class Post(models.Model):
     title = models.CharField(max_length=500)
     slug = models.SlugField(max_length=5000, blank=True)
     body = models.TextField()
+    desc = models.CharField(max_length=1000)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     time_stamp = models.DateTimeField(auto_now_add=True)
@@ -42,7 +43,7 @@ class Post(models.Model):
         super(Post, self).save(*args, **kwargs)
     
     def get_absolute_url(self):
-        return f"/post/{self.slug}"
+        return f"/blog/post/{self.slug}"
 
 
 class Comment(models.Model):

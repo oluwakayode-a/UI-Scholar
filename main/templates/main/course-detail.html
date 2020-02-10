@@ -1,0 +1,324 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block content %}
+        <!-- Page Header Start -->
+        <div class="page--header pt--60 pb--60 text-center" data-bg-img="img/page-header-img/bg.jpg" data-overlay="0.85">
+            <div class="container">
+                <div class="title">
+                    <h2 class="h1 text-white">{{ course.course_code }}</h2>
+                </div>
+
+                <ul class="breadcrumb text-gray ff--primary">
+                    <li><a href="index.html" class="btn-link">Home</a></li>
+                    <li><a href="course.html" class="btn-link">Course</a></li>
+                    <li class="active"><span class="text-primary">{{ course.name }}</span></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Page Header End -->
+
+        <!-- Page Wrapper Start -->
+        <section class="page--wrapper pt--80 pb--20">
+            <div class="container">
+                <div class="row">
+                    <!-- Main Content Start -->
+                    <div class="main--content col-md-8" data-trigger="stickyScroll">
+                        <div class="main--content-inner">
+                            <div class="row">
+                                <div class="col-md-5 col-sm-6 pb--60">
+                                    <!-- Product Gallery Start -->
+                                    <div class="product--gallery">
+                                        <!-- Tab Content Start -->
+                                        <div class="tab-content">
+                                            <div class="tab-pane fade in active" id="productImg01">
+                                                <div data-trigger="zoom">
+                                                    <img src="{% static 'img/products-img/full-01.jpg' %}" alt="">
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane fade" id="productImg02">
+                                                <div data-trigger="zoom">
+                                                    <img src="img/products-img/full-02.jpg" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Tab Content End -->
+                                    </div>
+                                    <!-- Product Gallery End -->
+                                </div>
+
+                                <div class="col-md-7 col-sm-6 pb--60">
+                                    <!-- Product Summery Start -->
+                                    <div class="product--summery fs--14">
+                                        <div class="title">
+                                            <h3 class="h4">{{ course.name }}</h3>
+                                        </div>
+
+                                        <div class="desc">
+                                            <p>{{ course.desc }}</p>
+                                        </div>
+
+                                        <div class="pt--30 pb--10">
+                                            <a href="{{ course.file_path.url }}" download><button type="submit" class="btn btn-default">Download Now</button></a>
+                                        </div>
+
+                                        <ul class="meta nav">
+                                            <li><span><i class="fa fa-tags"></i></span></li>
+                                            <li><a href="#">Physics</a></li>
+                                            <li><a href="#">Chemistry</a></li>
+                                            <li><a href="#">Statistics</a></li>
+                                            <li><a href="#">Mathematics</a></li>
+                                        </ul>
+
+                                        <ul class="social nav text-gray mt--10">
+                                            <li>
+                                                <i class="fa fa-share-alt mr--10"></i>
+                                                <span class="text-darkest mr--10">Share With</span>
+                                            </li>
+                                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- Product Summery End -->
+                                </div>
+                            </div>
+
+                            <!-- Product Details Nav Start -->
+                            <div class="product--details-nav">
+                                <ul class="nav ff--primary fs--18 fw--600 text-black bg-lighter">
+                                    <li class="active">
+                                        <a href="#produtDetailsTab01" data-toggle="tab">Reviews</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Product Details Nav End -->
+
+                            <!-- Product Details Start -->
+                            <div class="product--details tab-content pb--60">
+
+                                <!-- Tab Pane Start -->
+                                <div class="tab-pane fade in active" id="produtDetailsTab03">
+                                    <h4 class="h4 pt--20 pb--20">{{ course.get_review_count }} Review{{ course.get_review_count | pluralize }}</h4>
+
+                                    <!-- Review Items Start -->
+                                    <ul class="review--items nav">
+                                        {% for review in reviews %}
+                                        <li>
+                                            <!-- Review Item Start -->
+                                            <div class="review--item clearfix">
+                                                <div class="img mr--15 float--left" data-overlay="0.3" data-overlay-color="primary">
+                                                    <img src="img/products-img/avatar-01.jpg" alt="">
+                                                </div>
+
+                                                <div class="info ov--h">
+                                                    <div class="header clearfix">
+                                                        <div class="meta float--left">
+                                                            <p class="fs--14 fw--700 text-darkest mb--0">{{ review.user.username }}</p>
+
+                                                            <p><i class="fa fa-clock-o mr--10"></i>{{ review.time_stamp }}</p>
+                                                        </div>
+
+                                                        <!-- <div class="rating float--right text-lightgray">
+                                                            <i class="fa fa-star text-primary"></i>
+                                                            <i class="fa fa-star text-primary"></i>
+                                                            <i class="fa fa-star text-primary"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                        </div> -->
+                                                    </div>
+
+                                                    <div class="content--inner fs--14 mt--8">
+                                                        <p>{{ review.review }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Review Item End -->
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <!-- Review Items End -->
+
+                                    <h4 class="h4 pt--40">Add Review</h4>
+
+                                    <!-- Review Form Start -->
+                                    <div class="review--form pt--20" data-form="validate">
+                                        <form action="" method="POST">
+                                            {% csrf_token %}
+                                            <!-- <p class="pb--10">Don’t worry ! your e-mail address will not published.</p> -->
+
+                                            <p class="review--rating fs--14 text-lightgray">
+                                                <span class="text-darkest mr--10">Drop Rating :</span>
+
+                                                <!-- <span class="stars fs--12">
+                                                    <label>
+                                                        <i class="fa fa-star mr--2"></i>
+                                                        <input type="radio" name="rating" value="1">
+                                                    </label>
+
+                                                    <label>
+                                                        <i class="fa fa-star mr--2"></i>
+                                                        <input type="radio" name="rating" value="2">
+                                                    </label>
+
+                                                    <label>
+                                                        <i class="fa fa-star mr--2"></i>
+                                                        <input type="radio" name="rating" value="3">
+                                                    </label>
+
+                                                    <label>
+                                                        <i class="fa fa-star mr--2"></i>
+                                                        <input type="radio" name="rating" value="4">
+                                                    </label>
+
+                                                    <label>
+                                                        <i class="fa fa-star mr--2"></i>
+                                                        <input type="radio" name="rating" value="5">
+                                                    </label>
+                                                </span> -->
+                                            </p>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        {{ form.review }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- Review Form End -->
+                                </div>
+                                <!-- Tab Pane End -->
+                            </div>
+                            <!-- Product Details End -->
+                        </div>
+                    </div>
+                    <!-- Main Content End -->
+
+                    <!-- Main Sidebar Start -->
+                    <div class="main--sidebar col-md-4 pb--60" data-trigger="stickyScroll">
+                        <!-- Widget Start -->
+                        <div class="widget">
+                            <!-- Search Widget Start -->
+                            <div class="search--widget" data-form="validate">
+                                <form action="#">
+                                    <input type="text" name="search" placeholder="Search" class="form-control" required>
+
+                                    <button type="submit" class="btn-link"><i class="fa fa-search"></i></button>
+                                </form>
+                            </div>
+                            <!-- Search Widget End -->
+                        </div>
+                        <!-- Widget End -->
+
+                        <!-- Widget Start -->
+                        <div class="widget">
+                            <h2 class="h4 fw--700 widget--title">Catagories</h2>
+
+                            <!-- Links Widget Start -->
+                            <div class="links--widget">
+                                <ul class="nav">
+                                    <li><a href="#">Mathematics</a></li>
+                                    <li><a href="#">Physics</a> </li>
+                                    <li><a href="#">Chemistry</a></li>
+                                    <li><a href="#">Statatics</a></li>
+                                    <li><a href="#">Computer</a></li>
+                                    <li><a href="#">Miscelleneous</a></li>
+                                </ul>
+                            </div>
+                            <!-- Links Widget End -->
+                        </div>
+                        <!-- Widget End -->
+
+                        <!-- Widget Start -->
+                        <div class="widget">
+                            <h2 class="h4 fw--700 widget--title">Review</h2>
+
+                            <!-- Review Widget Start -->
+                            <div class="review--widget">
+                                <div class="owl-carousel">
+                                    {% for review in reviews %}
+                                    <div class="item">
+                                        <blockquote>
+                                            <p>{{ review.review | truncatechars:500 }}</p>
+                                        </blockquote>
+
+                                        <p>
+                                            <span>{{ review.user.username }}</span>
+                                        </p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <!-- Review Widget End -->
+                        </div>
+                        <!-- Widget End -->
+                    </div>
+                    <!-- Main Sidebar End -->
+                </div>
+
+                <!-- Related Products Start -->
+                <div class="related--products">
+                    <h3 class="h4 pb--20">Related Courses</h3>
+
+                    <div class="row AdjustRow">
+                        {% for course in related_courses %}
+                        <div class="col-md-3 col-xs-6 col-xxs-12 pb--30">
+                            <!-- Product Item Start -->
+                            <div class="product--item">
+                                <!-- Product Image Start -->
+                                <div class="product--img">
+                                    <img src="img/products-img/img-01-normal.jpg" alt="">
+                                    <img src="img/products-img/img-01-hover.jpg" alt="">
+
+                                    <div class="action">
+                                        <a href="{{ course.get_absolute_url }}">
+                                            <i class="fa fa-eye"></i>
+                                            <span>View Details</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Product Image End -->
+
+                                <!-- Product Info Start -->
+                                <div class="product--info text-center">
+                                    <div class="cat">
+                                        <p>
+                                            <a href="#" class="btn-link">{{ course.course_code }}</a>
+                                        </p>
+                                    </div>
+
+                                    <div class="title">
+                                        <h3 class="h6">
+                                            <a href="product-details.html" class="btn-link">Wireless Gaming Controller</a>
+                                        </h3>
+                                    </div>
+
+                                    <div class="rating">
+                                        <ul class="nav">
+                                            <li><i class="fa fa-star text-primary"></i></li>
+                                            <li><i class="fa fa-star text-primary"></i></li>
+                                            <li><i class="fa fa-star text-primary"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- Product Info End -->
+                            </div>
+                            <!-- Product Item End -->
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- Related Products End -->
+            </div>
+        </section>
+        <!-- Page Wrapper End -->
+{% endblock %}

@@ -29,4 +29,15 @@ def category(request):
     }
 
     return render(request, 'blog/category.html', context)
-    
+
+def post(request, slug):
+    post = Post.objects.get(slug=slug)
+    related_posts = Post.objects.filter(category=post.category).order_by('time_stamp')[:2]
+
+    context = {
+        'post' : post,
+        'related_posts' : related_posts,
+    }
+
+    return render(request, 'blog/post.html', context)
+ 
