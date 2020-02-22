@@ -8,6 +8,7 @@ User = get_user_model()
 class University(models.Model):
     name = models.CharField(max_length=1000)
     slug = models.SlugField(blank=True)
+    logo = models.ImageField(upload_to="school_logo/")
 
     def __str__(self):
         return self.name

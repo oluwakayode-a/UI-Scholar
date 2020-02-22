@@ -1,0 +1,77 @@
+{% extends "main/base.html" %}
+{% block content %}
+        <!-- Page Header Start -->
+        <div class="page--header pt--60 pb--60 text-center" data-bg-img="img/page-header-img/bg.jpg" data-overlay="0.85">
+            <div class="container">
+                <div class="title">
+                    <h2 class="h1 text-white">Login</h2>
+                </div>
+
+                <ul class="breadcrumb text-gray ff--primary">
+                    <li><a href="index.html" class="btn-link">Home</a></li>
+                    <li class="active"><span class="text-primary">Login</span></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Page Header End -->
+
+        <!-- Page Wrapper Start -->
+        <section class="page--wrapper pt--80 pb--20">
+            <div class="container">
+                <div class="row">
+                    <!-- Main Content Start -->
+                    <div class="main--content col-md-12">
+                        <div class="main--content-inner">
+                            <!-- Checkout Info Start -->
+                            <div class="checkout--info pb--30">
+                                <div class="title ff--primary fs--14 text-darkest bg-lighter">
+                                    <p>{{ form.non_field_errors }}</p>
+                                </div>
+
+                                <div data-form="validate">
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group fs--14 text-darker">
+                                                    <label for="username">
+                                                        <span>Username</span>
+                                                        {{ form.username }}
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="password">
+                                                    <span>Password</span>
+                                                    {{ form.password }}
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="buttons">
+                                            <button type="submit" class="btn btn-default">Login</button>
+                                        </div>
+
+                                        <a href="{% url 'accounts:register' %}" class="btn-link mt--20">No account yet? Register</a>
+                                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <a href="forget.html" class="btn-link mt--20">Forgot Your Password?</a>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Checkout Info End -->
+                        </div>
+                    </div>
+                    <!-- Main Content End -->
+                </div>
+            </div>
+        </section>
+        <!-- Page Wrapper End -->
+
+{% endblock %}
+
+{% block extra_scripts %}
+  <script>
+      $('input').addClass('form-control');
+  </script>
+{% endblock extra_scripts %}

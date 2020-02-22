@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Department, Level, Material, University, Faculty, Review
-from .forms import ReviewForm
+from blog.models import Post
+from .forms import ReviewForm, MaterialSearchForm
 from django.contrib.auth.decorators import login_required
 import datetime
 # Create your views here.
@@ -11,19 +12,33 @@ def index(request):
     faculties = Faculty.objects.all()
     departments = Department.objects.all()
     levels = Level.objects.all()
+    latest_posts = Post.objects.all()[:4]
+
+    form = MaterialSearchForm(request.POST or None)
 
     context = {
         'faculties' : faculties,
         'departments' : departments,
-        'levels' : levels
+        'levels' : levels,
+        'latest_posts' : latest_posts,
+        'form' : form
     }
     return render(request, 'main/index.html', context)
 
+def load_depts(request):
+    faculty = request.GET.get('faculty')
+    departments = Department.objects.filter(faculty_id=faculty).order_by('name')
+
+    context = {
+        'departments' : departments
+    }
+    return render(request, 'main/dept_dropdown.html', context)
+
 # @login_required
 def material_search(request):
-    level = Level.objects.get(name=request.POST.get('level'))
-    faculty = Faculty.objects.get(name=request.POST.get('faculty'))
-    department = Department.objects.get(name=request.POST.get('department'))
+    level = Level.objects.get(id=request.POST.get('level'))
+    faculty = Faculty.objects.get(id=request.POST.get('faculty'))
+    department = Department.objects.get(id=request.POST.get('department'))
 
 
     materials = Material.objects.filter(level=level, faculty=faculty, department=department)
@@ -87,6 +102,7 @@ def contact(request):
     return render(request, 'main/contact.html', context)
 
 def search(request):
+    q = request.GET.get('query')
     pass
 
 def about(request):

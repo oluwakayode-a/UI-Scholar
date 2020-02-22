@@ -1,0 +1,25 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block content %}
+<!-- Banner Section Start -->
+        <section class="banner--section" data-bg-img="img/preview-img/banner-bg.jpg" data-overlay="0.7">
+            <div class="container">
+                <!-- Banner Content Start -->
+                <div class="banner--content pt--100 pb--100 text-center">
+                    <div class="title pb--10">
+                        <h1 class="h4 text-white">U.I Scholar Project Assistant</h1>
+                    </div>
+
+                    <div class="sub-title pb--10">
+                        <h2 class="h2 text-white">Get Quality Services for your Final Year Project</h2>
+                    </div>
+
+                    <div class="action eq text-uppercase">
+                        <a href="{% url 'project_mgt:submit' %}"><button class="btn btn-white">Order Now</button></a>
+                    </div>
+                </div>
+                <!-- Banner Content End -->
+            </div>
+        </section>
+        <!-- Banner Section End -->
+{% endblock %}

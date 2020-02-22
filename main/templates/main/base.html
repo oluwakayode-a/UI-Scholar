@@ -122,7 +122,12 @@
                                 </a>
                             </li>
                             <li><a href="{% url 'main:contact' %}"><span>Contact</span></a></li>
-                            <li><a href="#" class="btn btn-white btn-block"><span>Log In</span></a></li>
+                            {% if request.user.is_authenticated %}
+                              <li><a href="" class="btn btn-white btn-block"><span>Hello, {{ request.user.username }}</span></a></li>
+                              <li><a href="{% url 'accounts:logout' %}" class="btn btn-white btn-block"><span>Logout</span></a></li>
+                            {% else %}
+                            <li><a href="{% url 'accounts:login' %}" class="btn btn-white btn-block"><span>Log In</span></a></li>
+                            {% endif %}
                         </ul>
                         <!-- Header Nav Links End -->
                     </div>
@@ -275,6 +280,9 @@
 
     <!-- ==== Main Script ==== -->
     <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_scripts %}
+      
+    {% endblock extra_scripts %}
 
 </body>
 

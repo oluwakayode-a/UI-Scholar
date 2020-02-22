@@ -1,5 +1,5 @@
 {% extends "main/base.html" %}
-
+{% load static %}
 {% block content %}
         <!-- Page Header Start -->
         <div class="page--header pt--60 pb--60 text-center" data-bg-img="img/page-header-img/bg.jpg" data-overlay="0.85">
@@ -30,15 +30,8 @@
                                     <div class="product--item" data-scroll-reveal="bottom">
                                         <!-- Product Image Start -->
                                         <div class="product--img">
-                                            <img src="img/products-img/img-01-normal.jpg" alt="">
-                                            <img src="img/products-img/img-01-hover.jpg" alt="">
-
-                                            <div class="action">
-                                                <a href="course.html">
-                                                    <i class="fa fa-eye"></i>
-                                                    <span>View Details</span>
-                                                </a>
-                                            </div>
+                                            <img src="{{ university.logo.url }}" alt="">
+                                            <img src="{{ university.logo.url }}" alt="">
                                         </div>
                                         <!-- Product Image End -->
 

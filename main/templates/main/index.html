@@ -41,7 +41,7 @@
 
                                             <!-- Buddy Finder Widget Start -->
                                             <div class="buddy-finder--widget">
-                                                <form action="{% url 'main:material_search' %}" method="POST">
+                                                <form action="{% url 'main:material_search' %}" method="POST" data-dept-url="{% url 'main:ajax_load_depts' %}" id="materialForm">
                                                     {% csrf_token %}
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -49,11 +49,7 @@
                                                                 <label>
                                                                     <span class="text-darker ff--primary fw--500">Level</span>
 
-                                                                    <select name="level" class="form-control form-sm" data-trigger="selectmenu">
-                                                                        {% for level in levels %}
-                                                                        <option value="{{ level }}">{{ level }}</option>
-                                                                        {% endfor %}
-                                                                    </select>
+                                                                    {{ form.level }}
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -62,12 +58,7 @@
                                                             <div class="form-group">
                                                                 <label>
                                                                     <span class="text-darker ff--primary fw--500">Faculty</span>
-
-                                                                    <select name="faculty" class="form-control form-sm" data-trigger="selectmenu">
-                                                                        {% for faculty in faculties %}
-                                                                        <option value="{{ faculty.name }}">{{ faculty.name }}</option>
-                                                                        {% endfor %}
-                                                                    </select>
+                                                                    {{ form.faculty }}
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -77,11 +68,7 @@
                                                                 <label>
                                                                     <span class="text-darker ff--primary fw--500">Department</span>
 
-                                                                    <select name="department" class="form-control form-sm" data-trigger="selectmenu">
-                                                                        {% for department in departments %}
-                                                                        <option value="{{ department.name }}">{{ department.name }}</option>
-                                                                        {% endfor %}
-                                                                    </select>
+                                                                    {{ form.department }}
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -111,80 +98,51 @@
         <section class="section bg-lighter pt--80 pb--40">
             <div class="container">
                 <div class="row AdjustRow">
-                    <div class="col-md-3 col-xs-6 col-xxs-12 pb--40">
+                    {% for post in latest_posts %}
+                    <div class="col-md-3 pb--40">
                         <!-- Feature Item Start -->
                         <div class="feature--item bg-default text-center">
                             <div class="title">
-                                <h2 class="h1 ff--default text-primary"><span data-trigger="counterup">530</span>k+</h2>
+                                <a href="{{ post.get_absolute_url }}"><p class="ff--default text-primary">{{ post.title }}</p></a>
                             </div>
 
                             <div class="sub-title">
-                                <h3 class="h2 fs--16">Stories / Topics Created</h3>
+                                <span>{{ post.time_stamp }}</span>
                             </div>
 
                             <div class="desc">
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                <p>{{ post.desc }}</p>
                             </div>
                         </div>
                         <!-- Feature Item End -->
                     </div>
-
-                    <div class="col-md-3 col-xs-6 col-xxs-12 pb--40">
-                        <!-- Feature Item Start -->
-                        <div class="feature--item bg-default text-center">
-                            <div class="title">
-                                <h2 class="h1 ff--default text-primary"><span data-trigger="counterup">30</span>k+</h2>
-                            </div>
-
-                            <div class="sub-title">
-                                <h3 class="h2 fs--16">Member Online Right Now</h3>
-                            </div>
-
-                            <div class="desc">
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                            </div>
-                        </div>
-                        <!-- Feature Item End -->
-                    </div>
-
-                    <div class="col-md-3 col-xs-6 col-xxs-12 pb--40">
-                        <!-- Feature Item Start -->
-                        <div class="feature--item bg-default text-center">
-                            <div class="title">
-                                <h2 class="h1 ff--default text-primary"><span data-trigger="counterup">1.5</span>k+</h2>
-                            </div>
-
-                            <div class="sub-title">
-                                <h3 class="h2 fs--16">Active Group / Meeting Room</h3>
-                            </div>
-
-                            <div class="desc">
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                            </div>
-                        </div>
-                        <!-- Feature Item End -->
-                    </div>
-
-                    <div class="col-md-3 col-xs-6 col-xxs-12 pb--40">
-                        <!-- Feature Item Start -->
-                        <div class="feature--item bg-default text-center">
-                            <div class="title">
-                                <h2 class="h1 ff--default text-primary"><span data-trigger="counterup">03</span>k+</h2>
-                            </div>
-
-                            <div class="sub-title">
-                                <h3 class="h2 fs--16">New Event In Every Week</h3>
-                            </div>
-
-                            <div class="desc">
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                            </div>
-                        </div>
-                        <!-- Feature Item End -->
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </section>
         <!-- Features Section End -->
 
 {% endblock %}
+
+{% block extra_scripts %}
+  <script>
+      $('select').addClass('form-control');
+  </script>
+
+  <script>
+      $('#id_faculty').change(function(){
+          var url = $("#materialForm").attr("data-dept-url");
+          var facultyId = $(this).val();
+
+          $.ajax({
+              url : url,
+              data : {
+                  'faculty' : facultyId
+              },
+              success : function(data) {
+                  $('#id_department').html(data);
+              }
+          });
+      });
+  </script>
+{% endblock extra_scripts %}

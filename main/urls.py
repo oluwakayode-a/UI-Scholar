@@ -9,5 +9,6 @@ urlpatterns = [
     path('about/', views.about, name="about"),
     path('courses/', views.course_list, name='courses'),
     path('course/<slug:slug>', views.course_detail, name='course'),
-    path('contact/', views.contact, name="contact")
+    path('contact/', views.contact, name="contact"),
+    path('ajax/load-depts', views.load_depts, name='ajax_load_depts')
 ]

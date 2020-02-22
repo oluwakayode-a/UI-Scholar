@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include(('main.urls', 'main'))),
     path('blog/', include(('blog.urls', 'blog'))),
     path('accounts/', include(('accounts.urls', 'accounts'))),
+    path('project_assistant/', include(('project_mgt.urls', 'project_mgt'))),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
