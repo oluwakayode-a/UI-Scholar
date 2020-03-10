@@ -1,5 +1,5 @@
 {% extends "main/base.html" %}
-
+{% load static %}
 {% block content %}
         <!-- Page Header Start -->
         <div class="page--header pt--60 pb--60 text-center" data-bg-img="img/page-header-img/bg.jpg" data-overlay="0.85">
@@ -28,7 +28,7 @@
                             <div class="post--item post--single pb--30">
                                 <!-- Post Image Start -->
                                 <div class="post--img">
-                                    <a href="blog-details.html"><img src="img/posts-img/post-item-02.jpg" alt=""></a>
+                                    <a href="blog-details.html"><img src="{{ post.image.url }}" alt=""></a>
                                 </div>
                                 <!-- Post Image End -->
 
@@ -514,7 +514,7 @@
                             <!-- Ad Widget Start -->
                             <div class="ad--widget">
                                 <a href="#">
-                                    <img src="img/widgets-img/ad.jpg" alt="" class="center-block">
+                                    <img src="{% static 'img/widgets-img/ad.jpg' %}" alt="" class="center-block">
                                 </a>
                             </div>
                             <!-- Ad Widget End -->

@@ -1,4 +1,5 @@
 {% extends "main/base.html" %}
+{% load static %}
         <!-- Header Section End -->
 
 {% block content %}
@@ -7,7 +8,7 @@
             <!-- Banner Slider Start -->
             <div class="banner--slider owl-carousel" data-owl-loop="false">
                 <!-- Banner Item Start -->
-                <div class="banner--item" data-bg-img="img/banner-img/home-version-3/slider-bg-01.jpg" data-overlay="0.5">
+                <div class="banner--item" data-bg-img="{% static 'img/banner-img/home-version-3/slider-bg-01.jpg' %}" data-overlay="0.5">
                     <div class="vc--parent">
                         <div class="vc--child">
                             <div class="container">

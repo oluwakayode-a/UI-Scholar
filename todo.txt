@@ -1,0 +1,4 @@
+.social login
+.pictures on blog
+.ads
+.profile [phone_number]
