@@ -21,11 +21,15 @@ from . import settings
 
 
 urlpatterns = [
+    path('jet/', include(('jet.urls', 'jet'))),
     path('admin/', admin.site.urls),
     path('', include(('main.urls', 'main'))),
+    path('', include('django.contrib.auth.urls')),
     path('blog/', include(('blog.urls', 'blog'))),
     path('accounts/', include(('accounts.urls', 'accounts'))),
     path('project_assistant/', include(('project_mgt.urls', 'project_mgt'))),
+    path('oauth/', include(('social_django.urls', 'social_django'))),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

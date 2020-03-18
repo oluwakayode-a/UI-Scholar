@@ -8,12 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- ==== Document Title ==== -->
-    <title>Title page</title>
+    <title>Parakletus | {% block title %}{% endblock %}</title>
 
     <!-- ==== Document Meta ==== -->
     <meta name="author" content="">
-    <meta name="description" content="">
+    <meta name="description" content="Parakletus.com.ng enables any individual in search of any 
+    educational material of interest to easily access; ranging from textbooks, course materials, 
+    scholarship and bursaries, academic blogs, tutorial videos, school trends and ads.">
     <meta name="keywords" content="">
+    {% block meta %}{% endblock %}
 
     <!-- ==== Favicon ==== -->
     <link rel="icon" href="favicon.png" type="image/png">
@@ -42,6 +45,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script data-ad-client="ca-pub-2651973040812184" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
 <body>
@@ -72,7 +76,7 @@
                         <!-- Header Navbar Logo Start -->
                         <div class="header--navbar-logo navbar-brand">
                             <a href="/">
-                                <img src="{% static 'img/logo-black.png' %}" alt="">
+                                <img src="{% static 'img/logo.jpeg' %}" alt="">
                             </a>
                         </div>
                         <!-- Header Navbar Logo End -->
@@ -80,8 +84,8 @@
 
                     <!-- Header Search Start -->
                     <div class="header--search style--2 float--right" data-form="validate">
-                        <form action="#">
-                            <input type="text" name="search" placeholder="I’m looking for..." class="form-control"
+                        <form action="{% url 'main:search' %}" method="GET">
+                            <input type="text" name="q" placeholder="I’m looking for..." class="form-control"
                                 required>
 
                             <button type="submit" class="btn-link"><i class="fa fa-search"></i></button>
@@ -94,7 +98,7 @@
                         <ul class="header--nav-links style--3 nav ff--primary">
                             <li>
                                 <a href="{% url 'main:university_list' %}">
-                                    <span>Schools</span>
+                                    <span>Universities</span>
                                 </a>
                             </li>
 
@@ -123,7 +127,7 @@
                             </li>
                             <li><a href="{% url 'main:contact' %}"><span>Contact</span></a></li>
                             {% if request.user.is_authenticated %}
-                              <li><a href="" class="btn btn-white btn-block"><span>Hello, {{ request.user.username }}</span></a></li>
+                              <li><a href="{% url 'accounts:profile' request.user.profile.id %}" class="btn btn-white btn-block"><span>Hello, {{ request.user.username }}</span></a></li>
                               <li><a href="{% url 'accounts:logout' %}" class="btn btn-white btn-block"><span>Logout</span></a></li>
                             {% else %}
                             <li><a href="{% url 'accounts:login' %}" class="btn btn-white btn-block"><span>Log In</span></a></li>
@@ -141,7 +145,7 @@
         <!-- Footer Section Start -->
         <footer class="footer--section">
             <!-- Footer Widgets Start -->
-            <div class="footer--widgets pt--70 pb--20 bg-lightdark" data-bg-img="img/footer-img/footer-widgets-bg.png">
+            <div class="footer--widgets pt--70 pb--20 bg-lightdark" data-bg-img="{% static 'img/footer-img/footer-widgets-bg.png' %}">
                 <div class="container">
                     <div class="row AdjustRow">
                         <div class="col-md-3 col-xs-6 col-xxs-12 pb--60">
@@ -151,10 +155,10 @@
 
                                 <!-- Text Widget Start -->
                                 <div class="text--widget">
-                                    <p>Ipsum is simply dummy text of the printing printing and typesetting industry.</p>
-
-                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority
-                                        have suffered believable.</p>
+                                    <p>Parakletus.com.ng enables any individual in search of any educational material
+                                         of interest to easily access; ranging from textbooks, course materials, scholarship and bursaries, 
+                                         academic blogs, tutorial videos, school trends and ads.
+                                    </p>
                                 </div>
                                 <!-- Text Widget End -->
                             </div>
@@ -164,29 +168,21 @@
                         <div class="col-md-3 col-xs-6 col-xxs-12 pb--60">
                             <!-- Widget Start -->
                             <div class="widget">
-                                <h2 class="h4 fw--700 widget--title">Recent Post</h2>
+                                <h2 class="h4 fw--700 widget--title">Recent Posts</h2>
 
                                 <!-- Recent Posts Widget Start -->
                                 <div class="recent-posts--widget">
                                     <ul class="nav">
+                                        {% for post in recent_posts %}
                                         <li>
                                             <p class="date fw--300">
-                                                <a href="#"><i class="fa mr--8 fa-file-text-o"></i>19 Jan 2017</a>
+                                                <a ><i class="fa mr--8 fa-file-text-o"></i>{{ post.time_stamp | date:'d M Y' }}</a>
                                             </p>
                                             <p class="title fw--700">
-                                                <a href="blog-details.html">I look at you and see the rest of my life in
-                                                    front</a>
+                                                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
                                             </p>
                                         </li>
-                                        <li>
-                                            <p class="date fw--300">
-                                                <a href="#"><i class="fa mr--8 fa-file-text-o"></i>19 Jan 2017</a>
-                                            </p>
-                                            <p class="title fw--700">
-                                                <a href="blog-details.html">If I know what love is, it is because of
-                                                    you</a>
-                                            </p>
-                                        </li>
+                                        {% endfor %}
                                     </ul>
                                 </div>
                                 <!-- Recent Posts Widget End -->
@@ -201,14 +197,13 @@
 
                                 <!-- Newsletter Widget Start -->
                                 <div class="newsletter--widget style--2" data-form="validate">
-                                    <p>Ipsum is simply dummy text of the printing printing and typesetting industry.</p>
+                                    <p>Subscribe to get latest information from us!</p>
 
-                                    <form
-                                        action="https://themelooks.us13.list-manage.com/subscribe/post?u=79f0b132ec25ee223bb41835f&id=f4e0e93d1d"
-                                        method="post" name="mc-embedded-subscribe-form" target="_blank">
+                                    <form method="post" name="mc-embedded-subscribe-form" action="{% url 'main:subscribe' %}">
+                                        {% csrf_token %}
                                         <div class="input-group">
-                                            <input type="email" name="EMAIL" placeholder="Enter your emil address"
-                                                class="form-control" autocomplete="off" required>
+                                            <input type="email" name="email" placeholder="Enter your email address"
+                                                class="form-control" required>
 
                                             <div class="input-group-btn">
                                                 <button type="submit" class="btn btn-primary"><i
@@ -230,15 +225,14 @@
             <div class="footer--copyright pt--30 pb--30 bg-darkest">
                 <div class="container">
                     <div class="text fw--500 fs--14 float--left">
-                        <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> UIScholar<span></span>. All Rights Reserved.</p>
+                        <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> Parakletus<span></span>. All Rights Reserved.</p>
                     </div>
 
                     <div class="social float--right">
                         <ul class="nav">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                            <li><a href="https://web.facebook.com/dparakletus" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://twitter.com/DParakletus" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://m.me/dparakletus" target="_blank"><i class="fa fa-facebook-square"></i></a></li>
                         </ul>
                     </div>
                 </div>

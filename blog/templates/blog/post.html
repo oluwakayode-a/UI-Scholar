@@ -1,5 +1,27 @@
 {% extends "main/base.html" %}
 {% load static %}
+
+{% block title %}
+  {{ post.title }}
+{% endblock title %}
+
+{% block meta %}
+<meta name="description" content="{{ post.desc | truncatechars:100 }}" />
+<meta name="keywords" content="" />
+<meta name="author" content="" />
+
+<!-- Facebook and Twitter integration -->
+<meta property="og:title" content="{{ post.title }}" />
+<meta property="og:image" content="{{ post.image.url }}" />
+<meta property="og:url" content="{{ request.build_absolute_uri }}" />
+<meta property="og:site_name" content="" />
+<meta property="og:description" content="{{ post.desc | truncatechars:100 }}" />
+<meta name="twitter:title" content="{{ post.title }}" />
+<meta name="twitter:image" content="{{ post.image.url }}" />
+<meta name="twitter:url" content="{{ request.build_absolute_uri }}" />
+<meta name="twitter:card" content="" />
+{% endblock meta %}
+
 {% block content %}
         <!-- Page Header Start -->
         <div class="page--header pt--60 pb--60 text-center" data-bg-img="img/page-header-img/bg.jpg" data-overlay="0.85">
@@ -9,8 +31,8 @@
                 </div>
 
                 <ul class="breadcrumb text-gray ff--primary">
-                    <li><a href="home-1.html" class="btn-link">Home</a></li>
-                    <li><a href="blog.html" class="btn-link">Blog</a></li>
+                    <li><a href="/" class="btn-link">Home</a></li>
+                    <li><a class="btn-link">Blog</a></li>
                     <li class="active"><span class="text-primary">{{ post.title }}</span></li>
                 </ul>
             </div>
@@ -28,7 +50,7 @@
                             <div class="post--item post--single pb--30">
                                 <!-- Post Image Start -->
                                 <div class="post--img">
-                                    <a href="blog-details.html"><img src="{{ post.image.url }}" alt=""></a>
+                                    <a href="{{ post.get_absolute_url }}"><img src="{{ post.image.url }}" alt=""></a>
                                 </div>
                                 <!-- Post Image End -->
 
@@ -40,13 +62,13 @@
                                             <li>
                                                 <a href="#">
                                                     <i class="mr--8 fa fa-calendar-o"></i>
-                                                    <span>05 Nov 2017</span>
+                                                    <span>{{ post.time_stamp | date:'d M Y' }}</span>
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="#">
                                                     <i class="mr--8 fa fa-comments-o"></i>
-                                                    <span>3 Comments</span>
+                                                    <span>{{ post.number_of_comments }} Comment{{ post.number_of_comments | pluralize }}</span>
                                                 </a>
                                             </li>
                                         </ul>
@@ -61,7 +83,7 @@
 
                                     <!-- Post Content Start -->
                                     <div class="post--content text-darker mt--10">
-                                        {{ post.body | linebreaks }}
+                                        {{ post.body | safe }}
                                     </div>
                                     <!-- Post Content End -->
 
@@ -75,19 +97,7 @@
                                                         <li>
                                                             <i class="mr--8 fa fa-folder-open-o"></i>
 
-                                                            <a href="#"><span>Creative</span></a>
-                                                            <a href="#"><span>Branding</span></a>
-                                                            <a href="#"><span>Product Design</span></a>
-                                                        </li>
-                                                        <li>
-                                                            <i class="mr--8 fa fa-tags"></i>
-
-                                                            <a href="#"><span>Design</span></a>
-                                                            <a href="#"><span>Art</span></a>
-                                                            <a href="#"><span>Drawing</span></a>
-                                                            <a href="#"><span>Typhography</span></a>
-                                                            <a href="#"><span>Graphics</span></a>
-                                                            <a href="#"><span>UI/UX</span></a>
+                                                            <a href="{{ post.category.get_absolute_url }}"><span>{{ post.category }}</span></a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -98,10 +108,10 @@
                                                 <!-- Post Social Start -->
                                                 <div class="post--social-share clearfix">
                                                     <ul class="nav">
-                                                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                                        <li><a href="#"><i class="fa fa-pinterest-p"></i></a></li>
+                                                        <li><a class="fa fa-share-alt"></a></li>
+                                                        <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                                        <li><a href="https://twitter.com/intent/tweet?text={{ post.title }}&original_referer={{ request.build_absolute_uri }}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                                        <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ post.title }}&summary={{ post.desc }}&source={{ request.build_absolute_uri }}" target="_blank"><i class="fa fa-linkedin"></i></a></li>
                                                     </ul>
                                                 </div>
                                                 <!-- Post Social End -->
@@ -117,25 +127,25 @@
                             <!-- Post Nav Start -->
                             <div class="post--nav pt--40 pb--30">
                                 <div class="row">
-                                    {% if post.get_next_by_time_stamp %}
+                                    {% if post.get_previous_by_time_stamp %}
                                     <div class="col-sm-6">
                                         <!-- Post Nav Item Start -->
-                                        <a href="{{ post.get_next_by_time_stamp.get_absolute_url }}" class="post--nav-item prev ff--primary fs--14 fw--500 text-darker">
-                                            <p class="mb--0"><i class="text-primary mr--10 fa fa-caret-left"></i>Next Post</p>
+                                        <a href="{{ post.get_previous_by_time_stamp.get_absolute_url }}" class="post--nav-item prev ff--primary fs--14 fw--500 text-darker">
+                                            <p class="mb--0"><i class="text-primary mr--10 fa fa-caret-left"></i>Previous Post</p>
 
-                                            <h4 class="h6 fw--500 mt--8">{{ post.get_next_by_time_stamp.title }}</h4>
+                                            <h4 class="h6 fw--500 mt--8">{{ post.get_previous_by_time_stamp.title }}</h4>
                                         </a>
                                         <!-- Post Nav Item End -->
                                     </div>
                                     {% endif %}
 
-                                    {% if post.get_previous_by_time_stamp %}
+                                    {% if post.get_next_by_time_stamp %}
                                     <div class="col-sm-6">
                                         <!-- Post Nav Item Start -->
-                                        <a href="{{ post.get_previous_by_time_stamp.get_absolute_url }}" class="post--nav-item next ff--primary fs--14 fw--500 text-darker text-right">
-                                            <p class="mb--0">Older Post<i class="text-primary ml--10 fa fa-caret-right"></i></p>
+                                        <a href="{{ post.get_next_by_time_stamp.get_absolute_url }}" class="post--nav-item next ff--primary fs--14 fw--500 text-darker text-right">
+                                            <p class="mb--0">Next Post<i class="text-primary ml--10 fa fa-caret-right"></i></p>
 
-                                            <h4 class="h6 fw--500 mt--8">{{ post.get_previous_by_time_stamp.title }}</h4>
+                                            <h4 class="h6 fw--500 mt--8">{{ post.get_next_by_time_stamp.title }}</h4>
                                         </a>
                                         <!-- Post Nav Item End -->
                                     </div>
@@ -145,36 +155,9 @@
                             </div>
                             <!-- Post Nav End -->
 
-                            <!-- Post Author Start -->
-                            <div class="post--author pt--40 pb--30">
-                                <div class="post--author-inner clearfix" data-bg-img="img/posts-img/author-bg.png">
-                                    <div class="img mr--30 text-black text-center float--left">
-                                        <img src="img/posts-img/author.jpg" alt="">
-
-                                        <p><a href="#" class="btn-link">Carla W. Carter</a></p>
-                                    </div>
-
-                                    <div class="info ov--h fs--14 pt--8">
-                                        <div class="desc fw--500 fstyle--i">
-                                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.</p>
-                                        </div>
-
-                                        <div class="social text-gray">
-                                            <ul class="nav">
-                                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Post Author End -->
-
                             <!-- Related Posts Start -->
                             <div class="related--posts pt--40">
-                                <h4 class="h4 pb--20">You May Also Like It</h4>
+                                <h4 class="h4 pb--20">Posts You May Also Like</h4>
 
                                 <div class="row AdjustRow">
                                     {% for post in related_posts %}
@@ -183,7 +166,7 @@
                                         <div class="post--item">
                                             <!-- Post Image Start -->
                                             <div class="post--img">
-                                                <a href="{{ post.get_absolute_url }}"><img src="img/posts-img/post-item-01.jpg" alt=""></a>
+                                                <a href="{{ post.get_absolute_url }}"><img src="{{ post.image.url }}" alt=""></a>
                                             </div>
                                             <!-- Post Image End -->
 
@@ -194,8 +177,8 @@
                                                     <ul class="nav">
                                                         <li>
                                                             <a href="#">
-                                                                <img src="img/posts-img/avatar-small-01.jpg" alt="">
-                                                                <span>Robbie T. Poorman</span>
+                                                                <img src="{% static 'img/posts-img/avatar-small-01.jpg' %}" alt="">
+                                                                <span>{{ post.author.get_full_name }}</span>
                                                             </a>
                                                         </li>
                                                         <li>
@@ -207,7 +190,7 @@
                                                         <li>
                                                             <a href="#">
                                                                 <i class="mr--8 fa fa-comments-o"></i>
-                                                                <span>0 Comment</span>
+                                                                <span>{{ post.number_of_comments }} Comment{{ post.number_of_comments | pluralize }}</span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -223,22 +206,12 @@
                                                 <!-- Post Title End -->
 
                                                 <!-- Post Meta Start -->
-                                                <div class="post--meta">
-                                                    <ul class="nav">
-                                                        <li>
-                                                            <i class="mr--8 fa fa-tags"></i>
-
-                                                            <a href="#"><span>Lifestyle</span></a>
-                                                            <a href="#"><span>Study</span></a>
-                                                            <a href="#"><span>Walkout</span></a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                                
                                                 <!-- Post Meta End -->
 
                                                 <!-- Post Content Start -->
                                                 <div class="post--content text-darker mt--10">
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.</p>
+                                                    {{ post.desc }}
                                                 </div>
                                                 <!-- Post Content End -->
 
@@ -259,175 +232,57 @@
 
                             <!-- Comment List Start -->
                             <div class="comment--list pt--40">
-                                <h4 class="h4 pb--20">03 Comments</h4>
+                                <h4 class="h4 pb--20">{{ post.number_of_comments }} Comment{{ post.number_of_comments | pluralize }}</h4>
 
                                 <ul class="comment--items nav">
+                                    {% for comment in comments %}
                                     <li>
                                         <!-- Comment Item Start -->
                                         <div class="comment--item mr--15 clearfix">
                                             <div class="img float--left" data-overlay="0.3" data-overlay-color="primary">
-                                                <img src="img/comments-img/avatar-01.jpg" alt="">
+                                                <img src="{{ comment.user.profile.profile_pic.url }}" alt="">
                                             </div>
 
                                             <div class="info ov--h">
                                                 <div class="header clearfix">
                                                     <div class="meta float--left">
                                                         <p class="fs--14 fw--700 text-darkest">
-                                                            <a href="#">Denise R. Sherman</a>
+                                                            <a href="{{ comment.user.profile.get_absolute_url }}">{{ comment.user.get_full_name }}</a>
                                                         </p>
 
                                                         <p>
                                                             <i class="mr--10 fa fa-clock-o"></i>
-                                                            <span>Yeasterday at 08:20 am</span>
+                                                            <span>{{ comment.time_stamp | timesince }} ago.</span>
                                                         </p>
-                                                    </div>
-
-                                                    <div class="reply text-darker float--right">
-                                                        <a href="#" class="btn btn-default">Reply</a>
                                                     </div>
                                                 </div>
 
                                                 <div class="content pt--8 fs--14">
-                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration  If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Comment Item End -->
-
-                                        <ul class="comment--items nav">
-                                            <li>
-                                                <!-- Comment Item Start -->
-                                                <div class="comment--item mr--15 clearfix">
-                                                    <div class="img float--left" data-overlay="0.3" data-overlay-color="primary">
-                                                        <img src="img/comments-img/avatar-02.jpg" alt="">
-                                                    </div>
-
-                                                    <div class="info ov--h">
-                                                        <div class="header clearfix">
-                                                            <div class="meta float--left">
-                                                                <p class="fs--14 fw--700 text-darkest">
-                                                                    <a href="#">Leticia J. Espinosa</a>
-                                                                </p>
-
-                                                                <p>
-                                                                    <i class="mr--10 fa fa-clock-o"></i>
-                                                                    <span>Yeasterday at 08:20 am</span>
-                                                                </p>
-                                                            </div>
-
-                                                            <div class="reply text-darker float--right">
-                                                                <a href="#" class="btn btn-default">Reply</a>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="content pt--8 fs--14">
-                                                            <p>There are many variations of passages of Lorem Ipsum available.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- Comment Item End -->
-                                            </li>
-                                        </ul>
-                                    </li>
-
-                                    <li>
-                                        <!-- Comment Item Start -->
-                                        <div class="comment--item mr--15 clearfix">
-                                            <div class="img float--left" data-overlay="0.3" data-overlay-color="primary">
-                                                <img src="img/comments-img/avatar-03.jpg" alt="">
-                                            </div>
-
-                                            <div class="info ov--h">
-                                                <div class="header clearfix">
-                                                    <div class="meta float--left">
-                                                        <p class="fs--14 fw--700 text-darkest">
-                                                            <a href="#">Eugene E. Thompson</a>
-                                                        </p>
-
-                                                        <p>
-                                                            <i class="mr--10 fa fa-clock-o"></i>
-                                                            <span>Yeasterday at 08:20 am</span>
-                                                        </p>
-                                                    </div>
-
-                                                    <div class="reply text-darker float--right">
-                                                        <a href="#" class="btn btn-default">Reply</a>
-                                                    </div>
-                                                </div>
-
-                                                <div class="content pt--8 fs--14">
-                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration  If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything.</p>
+                                                    <p>{{ comment.body }}</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- Comment Item End -->
                                     </li>
-
-                                    <li>
-                                        <!-- Comment Item Start -->
-                                        <div class="comment--item mr--15 clearfix">
-                                            <div class="img float--left" data-overlay="0.3" data-overlay-color="primary">
-                                                <img src="img/comments-img/avatar-04.jpg" alt="">
-                                            </div>
-
-                                            <div class="info ov--h">
-                                                <div class="header clearfix">
-                                                    <div class="meta float--left">
-                                                        <p class="fs--14 fw--700 text-darkest">
-                                                            <a href="#">Carol M. Rodriguez</a>
-                                                        </p>
-
-                                                        <p>
-                                                            <i class="mr--10 fa fa-clock-o"></i>
-                                                            <span>Yeasterday at 08:20 am</span>
-                                                        </p>
-                                                    </div>
-
-                                                    <div class="reply text-darker float--right">
-                                                        <a href="#" class="btn btn-default">Reply</a>
-                                                    </div>
-                                                </div>
-
-                                                <div class="content pt--8 fs--14">
-                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration  If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Comment Item End -->
-                                    </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                             <!-- Comment List End -->
-
+                            
+                            {% if request.user.is_authenticated %}
                             <!-- Comment Form Start -->
                             <div class="comment--form pb--30" data-form="validate">
                                 <h4 class="h4 pb--15">Leave A Comment</h4>
 
-                                <p class="ff--primary fs--14 text-darkest pb--10">Don’t worry ! your e-mail address will not published.</p>
-
-                                <form action="#">
+                                {% if not request.user.is_authenticated %}
+                                <p class="ff--primary fs--14 text-darkest pb--10"><a href="{% url 'accounts:login' %}">Log in</a> to comment.</p>
+                                {% else %}
+                                <form action="" method="POST">
+                                    {% csrf_token %}
                                     <div class="row gutter--15">
-                                        <div class="col-sm-4 col-xxs-12">
-                                            <div class="form-group">
-                                                <input type="text" name="name" placeholder="Name *" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-4 col-xxs-12">
-                                            <div class="form-group">
-                                                <input type="text" name="email" placeholder="E-mail *" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-4 col-xxs-12">
-                                            <div class="form-group">
-                                                <input type="text" name="website" placeholder="Website" class="form-control">
-                                            </div>
-                                        </div>
-
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <textarea name="comment" placeholder="Comment *" class="form-control" required></textarea>
+                                                {{ form.body }}
                                             </div>
                                         </div>
 
@@ -436,7 +291,11 @@
                                         </div>
                                     </div>
                                 </form>
+                                {% endif %}
                             </div>
+                            {% else %}
+                            <p><a href="{% url 'accounts:login' %}">Log in</a> to comment.</p>
+                            {% endif %}
                             <!-- Comment Form End -->
                         </div>
                     </div>
@@ -446,66 +305,25 @@
                     <div class="main--sidebar col-md-4 pb--60" data-trigger="stickyScroll">
                         <!-- Widget Start -->
                         <div class="widget">
-                            <h2 class="h4 fw--700 widget--title">Find A Blog</h2>
+                            <h2 class="h4 fw--700 widget--title">Categories</h2>
 
                             <!-- Buddy Finder Widget Start -->
-                            <div class="buddy-finder--widget">
-                                <form action="#">
-                                    <div class="row">
-                                        <div class="col-xs-12 col-xxs-12">
-                                            <div class="form-group">
-                                                <label>
-                                                    <span class="text-darker ff--primary fw--500">Category</span>
-                                                    <select name="category" class="form-control form-sm" data-trigger="selectmenu">
-                                                        <option value="Technology">Technology</option>
-                                                        <option value="Academics">Academics</option>
-                                                    </select>
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-12">
-                                            <button type="submit" class="btn btn-primary">Search</button>
-                                        </div>
-                                    </div>
-                                </form>
+                            <div class="nav--widget">
+                                <ul class="nav">
+                                    {% for category in categories %}
+                                    <li>
+                                        <a href="{{ category.get_absolute_url }}">
+                                            <span class="text">{{ category.name }}</span>
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
                             </div>
                             <!-- Buddy Finder Widget End -->
                         </div>
                         <!-- Widget End -->
                         <!-- Widget Start -->
-                        <div class="widget">
-                            <h2 class="h4 fw--700 widget--title">Archives</h2>
-
-                            <!-- Nav Widget Start -->
-                            <div class="nav--widget">
-                                <ul class="nav">
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-calendar-o"></i>
-                                            <span class="text">Jan - July 2017</span>
-                                            <span class="count">(86)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-calendar-o"></i>
-                                            <span class="text">Jan - Dce 2016</span>
-                                            <span class="count">(328)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-calendar-o"></i>
-                                            <span class="text">Jan - Dec 2015</span>
-                                            <span class="count">(427)</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- Nav Widget End -->
-                        </div>
-                        <!-- Widget End -->
+                        
 
                         <!-- Widget Start -->
                         <div class="widget">
@@ -514,7 +332,7 @@
                             <!-- Ad Widget Start -->
                             <div class="ad--widget">
                                 <a href="#">
-                                    <img src="{% static 'img/widgets-img/ad.jpg' %}" alt="" class="center-block">
+                                    <img src="{% static 'img/ad_02.jpeg' %}" alt="" class="center-block">
                                 </a>
                             </div>
                             <!-- Ad Widget End -->

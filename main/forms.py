@@ -1,5 +1,5 @@
 from django import forms
-from .models import Review, Material, Department
+from .models import Review, Material, Department, Message
 
 class MaterialSearchForm(forms.ModelForm):
     class Meta:
@@ -21,3 +21,27 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ('review',)
+
+
+class ContactForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder' : 'Name'
+    }))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'placeholder' : 'Email'
+    }))
+    subject = forms.CharField(widget=forms.TextInput(attrs={    
+        'placeholder' : 'Subject of your Message'
+    }))
+    message = forms.CharField(widget=forms.Textarea(attrs={
+        'placeholder' : 'Your Message'
+    }))
+
+    class Meta:
+        model = Message
+        fields = [
+            'name',
+            'email',
+            'subject',
+            'message'
+        ]

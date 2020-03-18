@@ -1,5 +1,8 @@
 {% extends "main/base.html" %}
 {% load static %}
+{% block title %}
+{{ course.name }}
+{% endblock %}
 
 {% block content %}
         <!-- Page Header Start -->
@@ -10,8 +13,8 @@
                 </div>
 
                 <ul class="breadcrumb text-gray ff--primary">
-                    <li><a href="index.html" class="btn-link">Home</a></li>
-                    <li><a href="course.html" class="btn-link">Course</a></li>
+                    <li><a href="/" class="btn-link">Home</a></li>
+                    <li><a  class="btn-link">Course</a></li>
                     <li class="active"><span class="text-primary">{{ course.name }}</span></li>
                 </ul>
             </div>
@@ -33,13 +36,7 @@
                                         <div class="tab-content">
                                             <div class="tab-pane fade in active" id="productImg01">
                                                 <div data-trigger="zoom">
-                                                    <img src="{% static 'img/products-img/full-01.jpg' %}" alt="">
-                                                </div>
-                                            </div>
-
-                                            <div class="tab-pane fade" id="productImg02">
-                                                <div data-trigger="zoom">
-                                                    <img src="img/products-img/full-02.jpg" alt="">
+                                                    <img src="{{ course.image.url }}" alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -63,23 +60,14 @@
                                             <a href="{{ course.file_path.url }}" download><button type="submit" class="btn btn-default">Download Now</button></a>
                                         </div>
 
-                                        <ul class="meta nav">
-                                            <li><span><i class="fa fa-tags"></i></span></li>
-                                            <li><a href="#">Physics</a></li>
-                                            <li><a href="#">Chemistry</a></li>
-                                            <li><a href="#">Statistics</a></li>
-                                            <li><a href="#">Mathematics</a></li>
-                                        </ul>
-
                                         <ul class="social nav text-gray mt--10">
                                             <li>
                                                 <i class="fa fa-share-alt mr--10"></i>
                                                 <span class="text-darkest mr--10">Share With</span>
                                             </li>
-                                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                                            <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                            <li><a href="https://twitter.com/intent/tweet?text={{ course.name }}{{ url_string }}&original_referer={{ request.build_absolute_uri }}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                            <li><a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ course.name }}&summary={{ share_string }}&source={{ url_string }}" target="_blank"><i class="fa fa-linkedin"></i></a></li>
                                         </ul>
                                     </div>
                                     <!-- Product Summery End -->
@@ -110,24 +98,16 @@
                                             <!-- Review Item Start -->
                                             <div class="review--item clearfix">
                                                 <div class="img mr--15 float--left" data-overlay="0.3" data-overlay-color="primary">
-                                                    <img src="img/products-img/avatar-01.jpg" alt="">
+                                                    <img src="{{ review.user.profile.profile_pic.url }}" alt="">
                                                 </div>
 
                                                 <div class="info ov--h">
                                                     <div class="header clearfix">
                                                         <div class="meta float--left">
-                                                            <p class="fs--14 fw--700 text-darkest mb--0">{{ review.user.username }}</p>
+                                                            <p class="fs--14 fw--700 text-darkest mb--0">{{ review.user.get_full_name }}</p>
 
-                                                            <p><i class="fa fa-clock-o mr--10"></i>{{ review.time_stamp }}</p>
+                                                            <p><i class="fa fa-clock-o mr--10"></i>{{ review.time_stamp | date:'d M Y'}}</p>
                                                         </div>
-
-                                                        <!-- <div class="rating float--right text-lightgray">
-                                                            <i class="fa fa-star text-primary"></i>
-                                                            <i class="fa fa-star text-primary"></i>
-                                                            <i class="fa fa-star text-primary"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                        </div> -->
                                                     </div>
 
                                                     <div class="content--inner fs--14 mt--8">
@@ -137,6 +117,7 @@
                                             </div>
                                             <!-- Review Item End -->
                                         </li>
+                                        <br/><br><br><br><br><br>
                                         {% endfor %}
                                     </ul>
                                     <!-- Review Items End -->
@@ -148,37 +129,6 @@
                                         <form action="" method="POST">
                                             {% csrf_token %}
                                             <!-- <p class="pb--10">Don’t worry ! your e-mail address will not published.</p> -->
-
-                                            <p class="review--rating fs--14 text-lightgray">
-                                                <span class="text-darkest mr--10">Drop Rating :</span>
-
-                                                <!-- <span class="stars fs--12">
-                                                    <label>
-                                                        <i class="fa fa-star mr--2"></i>
-                                                        <input type="radio" name="rating" value="1">
-                                                    </label>
-
-                                                    <label>
-                                                        <i class="fa fa-star mr--2"></i>
-                                                        <input type="radio" name="rating" value="2">
-                                                    </label>
-
-                                                    <label>
-                                                        <i class="fa fa-star mr--2"></i>
-                                                        <input type="radio" name="rating" value="3">
-                                                    </label>
-
-                                                    <label>
-                                                        <i class="fa fa-star mr--2"></i>
-                                                        <input type="radio" name="rating" value="4">
-                                                    </label>
-
-                                                    <label>
-                                                        <i class="fa fa-star mr--2"></i>
-                                                        <input type="radio" name="rating" value="5">
-                                                    </label>
-                                                </span> -->
-                                            </p>
 
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -206,9 +156,9 @@
                         <!-- Widget Start -->
                         <div class="widget">
                             <!-- Search Widget Start -->
-                            <div class="search--widget" data-form="validate">
-                                <form action="#">
-                                    <input type="text" name="search" placeholder="Search" class="form-control" required>
+                            <div class="search--widget">
+                                <form action="{% url 'main:course_search' %}" method="GET">
+                                    <input type="text" name="q" placeholder="Search" class="form-control" required>
 
                                     <button type="submit" class="btn-link"><i class="fa fa-search"></i></button>
                                 </form>
@@ -219,17 +169,14 @@
 
                         <!-- Widget Start -->
                         <div class="widget">
-                            <h2 class="h4 fw--700 widget--title">Catagories</h2>
+                            <h2 class="h4 fw--700 widget--title">Departments</h2>
 
                             <!-- Links Widget Start -->
                             <div class="links--widget">
                                 <ul class="nav">
-                                    <li><a href="#">Mathematics</a></li>
-                                    <li><a href="#">Physics</a> </li>
-                                    <li><a href="#">Chemistry</a></li>
-                                    <li><a href="#">Statatics</a></li>
-                                    <li><a href="#">Computer</a></li>
-                                    <li><a href="#">Miscelleneous</a></li>
+                                    {% for department in departments %}
+                                    <li><a href="{% url 'main:department' department.slug %}">{{ department }}</a></li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                             <!-- Links Widget End -->
@@ -250,6 +197,7 @@
                                         </blockquote>
 
                                         <p>
+                                            <img src="{{ review.user.profile.profile_pic.url }}" alt="">
                                             <span>{{ review.user.username }}</span>
                                         </p>
                                     </div>
@@ -263,6 +211,7 @@
                     <!-- Main Sidebar End -->
                 </div>
 
+                {% if related_courses %}
                 <!-- Related Products Start -->
                 <div class="related--products">
                     <h3 class="h4 pb--20">Related Courses</h3>
@@ -274,8 +223,7 @@
                             <div class="product--item">
                                 <!-- Product Image Start -->
                                 <div class="product--img">
-                                    <img src="img/products-img/img-01-normal.jpg" alt="">
-                                    <img src="img/products-img/img-01-hover.jpg" alt="">
+                                    <img src="{{ course.image.url }}" alt="">
 
                                     <div class="action">
                                         <a href="{{ course.get_absolute_url }}">
@@ -290,24 +238,14 @@
                                 <div class="product--info text-center">
                                     <div class="cat">
                                         <p>
-                                            <a href="#" class="btn-link">{{ course.course_code }}</a>
+                                            <a class="btn-link">{{ course.course_code }}</a>
                                         </p>
                                     </div>
 
                                     <div class="title">
                                         <h3 class="h6">
-                                            <a href="product-details.html" class="btn-link">Wireless Gaming Controller</a>
+                                            <a href="{{ course.get_absolute_url }}" class="btn-link">{{ course.name }}</a>
                                         </h3>
-                                    </div>
-
-                                    <div class="rating">
-                                        <ul class="nav">
-                                            <li><i class="fa fa-star text-primary"></i></li>
-                                            <li><i class="fa fa-star text-primary"></i></li>
-                                            <li><i class="fa fa-star text-primary"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                            <li><i class="fa fa-star"></i></li>
-                                        </ul>
                                     </div>
                                 </div>
                                 <!-- Product Info End -->
@@ -318,6 +256,7 @@
                     </div>
                 </div>
                 <!-- Related Products End -->
+                {% endif %}
             </div>
         </section>
         <!-- Page Wrapper End -->

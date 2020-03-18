@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
+from ckeditor_uploader.fields import RichTextUploadingField
 
 User = get_user_model()
 
@@ -14,7 +15,7 @@ class Category(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return f"/category/{self.slug}"
+        return f"/blog/category/{self.slug}"
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -28,7 +29,7 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=500)
     slug = models.SlugField(max_length=5000, blank=True)
-    body = models.TextField()
+    body = RichTextUploadingField()
     desc = models.CharField(max_length=1000)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -44,13 +45,18 @@ class Post(models.Model):
     
     def get_absolute_url(self):
         return f"/blog/post/{self.slug}"
+    
+    @property
+    def number_of_comments(self):
+        return self.comment_set.all().count()
 
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    name = models.CharField(max_length=500)
-    email = models.EmailField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
+    time_stamp = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"comment by {self.name} on {self.post}"
+        return f"comment by {self.user.username} on {self.post}"
+

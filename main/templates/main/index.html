@@ -1,6 +1,9 @@
 {% extends "main/base.html" %}
 {% load static %}
         <!-- Header Section End -->
+{% block title %}
+Home
+{% endblock %}
 
 {% block content %}
         <!-- Banner Section Start -->
@@ -8,16 +11,17 @@
             <!-- Banner Slider Start -->
             <div class="banner--slider owl-carousel" data-owl-loop="false">
                 <!-- Banner Item Start -->
-                <div class="banner--item" data-bg-img="{% static 'img/banner-img/home-version-3/slider-bg-01.jpg' %}" data-overlay="0.5">
+                <div class="banner--item" data-bg-img="{% static 'img/banner-img/banner.jpeg' %}" data-overlay="0.5">
                     <div class="vc--parent">
                         <div class="vc--child">
                             <div class="container">
                                 <div class="row row--md-vc">
+
                                     <div class="col-md-7">
                                         <!-- Banner Content Start -->
                                         <div class="banner--content pt--70 pb--80">
                                             <div class="title">
-                                                <h1 class="h2 text-white">Welcome To Community</h1>
+                                                <h1 class="h2 text-white">Welcome To Parakletus</h1>
                                             </div>
 
                                             <div class="sub-title">
@@ -25,12 +29,20 @@
                                             </div>
 
                                             <div class="desc fs--16">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum aspernatur repudiandae praesentium, accusantium quo eaque porro ut at corporis, ipsa omnis vero minima aliquam nulla, eos dolorem provident, deserunt asperiores!</p>
+                                                <blockquote>
+                                                    A very important element of every development is the willingness to bring about change gently
+                                                    <footer style="color: white;">
+                                                        Prof. Chinua Achebe
+                                                    </footer>
+                                                </blockquote>
+                                                <p>
+                                                    Take that little step of downloading that material, learning that course or watching that tutorial video 
+                                                    because tiny steps is all you need for that academic breakthrough you need.
+                                                </p>
                                             </div>
 
                                             <div class="action text-uppercase">
-                                                <a href="#" class="btn btn-white">Learn More</a>
-                                                <a href="#" class="btn btn-primary">See Members</a>
+                                                <a href="{% url 'main:about' %}" class="btn btn-white">Learn More</a>
                                             </div>
                                         </div>
                                         <!-- Banner Content End -->
@@ -95,33 +107,169 @@
         </section>
         <!-- Banner Section End -->
 
-        <!-- Features Section Start -->
-        <section class="section bg-lighter pt--80 pb--40">
+        <section class="section pt--70 pb--40">
             <div class="container">
-                <div class="row AdjustRow">
-                    {% for post in latest_posts %}
-                    <div class="col-md-3 pb--40">
-                        <!-- Feature Item Start -->
-                        <div class="feature--item bg-default text-center">
-                            <div class="title">
-                                <a href="{{ post.get_absolute_url }}"><p class="ff--default text-primary">{{ post.title }}</p></a>
+                <!-- Section Title Start -->
+                <div class="section--title pb--50 text-center">
+                    <div class="title">
+                        <h2 class="h2">How It Works?</h2>
+                    </div>
+                </div>
+                <!-- Section Title End -->
+
+                <div class="row">
+                    <div class="col-md-7 pb--40">
+                        <div class="row gutter--15 AdjustRow" data-scroll-reveal="group">
+                            <div class="col-xs-4 pb--15">
+                                <img src="{% static 'img/how-it-works-img/01.jpeg' %}" alt="">
                             </div>
 
-                            <div class="sub-title">
-                                <span>{{ post.time_stamp }}</span>
+                            <div class="col-xs-4 pb--15">
+                                <img src="{% static 'img/how-it-works-img/02.jpg' %}" alt="">
                             </div>
 
-                            <div class="desc">
-                                <p>{{ post.desc }}</p>
+                            <div class="col-xs-4 pb--15">
+                                <img src="{% static 'img/how-it-works-img/03.jpg' %}" alt="">
+                            </div>
+
+                            <div class="col-xs-12">
+                                <img src="{% static 'img/how-it-works-img/04.jpg' %}" alt="">
                             </div>
                         </div>
-                        <!-- Feature Item End -->
                     </div>
-                    {% endfor %}
+
+                    <div class="col-md-5 pb--40">
+                        <!-- Info Items Start -->
+                        <div class="info--items" data-scroll-reveal="group">
+                            <!-- Info Item Start -->
+                            <div class="info--item clearfix">
+                                <div class="icon">
+                                    <img src="{% static 'img/how-it-works-img/icon-02.png' %}" alt="">
+                                </div>
+
+                                <div class="info">
+                                    <div class="title">
+                                        <h3 class="h4 fw--700"><a href="{% url 'accounts:register' %}">Create An Account</a></h3>
+                                    </div>
+
+                                    <div class="desc">
+                                        <p>Click on the link to sign up and have a full experience of the platform</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Info Item End -->
+
+                            <!-- Info Item Start -->
+                            <div class="info--item clearfix">
+                                <div class="icon">
+                                    <img src="{% static 'img/how-it-works-img/icon-01.png' %}" alt="">
+                                </div>
+
+                                <div class="info">
+                                    <div class="title">
+                                        <h3 class="h4 fw--700"><a href="javascript:void(0);">Check &amp Download Materials;</a></h3>
+                                    </div>
+
+                                    <div class="desc">
+                                        <p>After sign up, go through the courses to get to the actual material you need.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Info Item End -->
+
+                            <!-- Info Item Start -->
+                            <div class="info--item clearfix">
+                                <div class="icon">
+                                    <img src="{% static 'img/how-it-works-img/icon-03.png' %}" alt="">
+                                </div>
+
+                                <div class="info">
+                                    <div class="title">
+                                        <h3 class="h4 fw--700"><a href="{% url 'blog:index' %}">Read Stories</a></h3>
+                                    </div>
+
+                                    <div class="desc">
+                                        <p>Stories across several sectors, timely, relevant and concise.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Info Item End -->
+
+                            <!-- Info Item Start -->
+                            <div class="info--item clearfix">
+                                <div class="icon">
+                                    <img src="{% static 'img/how-it-works-img/icon-04.png' %}" alt="">
+                                </div>
+
+                                <div class="info">
+                                    <div class="title">
+                                        <h3 class="h4 fw--700"><a href="javascript:void(0);">Share With Friends</a></h3>
+                                    </div>
+
+                                    <div class="desc">
+                                        <p>As you have enjoyed your experience on the platform, do well to share with your friends and follow us on our social media handles.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Info Item End -->
+                        </div>
+                        <!-- Info Items End -->
+                    </div>
                 </div>
             </div>
         </section>
-        <!-- Features Section End -->
+        <!-- How It Works Section End -->
+
+        <!-- Most Popular Groups Section Start -->
+        <section class="section bg-lighter pt--70 pb--70">
+            <div class="container">
+                <div class="section--title pb--50 text-center">
+                    <div class="title">
+                        <h2 class="h2">Latest Posts from the Blog</h2>
+                    </div>
+                </div>
+                <!-- Tab Content Start -->
+                <div class="tab-content">
+                    <!-- Tab Pane Start -->
+                    <div class="tab-pane fade in active" id="boxItemsTab01">
+                        <!-- Box Items Start -->
+                        <div class="box--items owl-carousel" data-owl-items="4" data-owl-margin="30" data-owl-autoplay="false">
+                            <!-- Box Item Start -->
+                            {% for post in latest_posts %}
+                            <div class="box--item text-center">
+                                <a href="{{ post.get_absolute_url }}" class="img" data-overlay="0.1">
+                                    <img src="{{ post.image.url }}" alt="">
+                                </a>
+
+                                <div class="info">
+                                    <div class="icon fs--18 text-lightest bg-primary">
+                                        <i class="fa fa-book"></i>
+                                    </div>
+
+                                    <div class="title">
+                                        <h2 class="h6"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+                                    </div>
+
+                                    <div class="desc text-darker">
+                                        <p>{{ post.desc | truncatechars:50 }}</p>
+                                    </div>
+
+                                    <div class="action">
+                                        <a href="{{ post.get_absolute_url }}">Read More<i class="fa ml--10 fa-caret-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <!-- Box Item End -->
+                        </div>
+                        <!-- Box Items End -->
+                    </div>
+                    <!-- Tab Pane End -->
+                </div>
+                <!-- Tab Content End -->
+            </div>
+        </section>
+        <!-- Most Popular Groups Section End -->
 
 {% endblock %}
 

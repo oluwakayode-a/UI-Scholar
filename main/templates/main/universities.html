@@ -1,16 +1,20 @@
 {% extends "main/base.html" %}
 {% load static %}
+{% block title %}
+Universities
+{% endblock %}
+
 {% block content %}
         <!-- Page Header Start -->
         <div class="page--header pt--60 pb--60 text-center" data-bg-img="img/page-header-img/bg.jpg" data-overlay="0.85">
             <div class="container">
                 <div class="title">
-                    <h2 class="h1 text-white">School</h2>
+                    <h2 class="h1 text-white">Universities</h2>
                 </div>
 
                 <ul class="breadcrumb text-gray ff--primary">
-                    <li><a href="index.html" class="btn-link">Home</a></li>
-                    <li class="active"><span class="text-primary">School</span></li>
+                    <li><a href="/" class="btn-link">Home</a></li>
+                    <li class="active"><span class="text-primary">Universities</span></li>
                 </ul>
             </div>
         </div>
@@ -30,7 +34,6 @@
                                     <div class="product--item" data-scroll-reveal="bottom">
                                         <!-- Product Image Start -->
                                         <div class="product--img">
-                                            <img src="{{ university.logo.url }}" alt="">
                                             <img src="{{ university.logo.url }}" alt="">
                                         </div>
                                         <!-- Product Image End -->
@@ -64,12 +67,15 @@
                             <div class="page--count pb--30">
                                 <label class="ff--primary fs--14 fw--500 text-darker">
                                     <span>Viewing</span>
+                                    {% if universities.has_previous %}
+                                    <a href="?page={{ universities.previous_page_number }}" class="btn-link"><i class="fa fa-caret-left"></i></a>
+                                    {% endif %}
 
-                                    <a href="#" class="btn-link"><i class="fa fa-caret-left"></i></a>
-                                    <input type="number" name="page-count" value="01" class="form-control form-sm">
-                                    <a href="#" class="btn-link"><i class="fa fa-caret-right"></i></a>
-
-                                    <span>of 28</span>
+                                    <input type="number" name="page-count" value="{{ universities.number }}" class="form-control form-sm">
+                                    
+                                    {% if universities.has_next %}
+                                    <a href="?page={{ universities.next_page_number }}" class="btn-link"><i class="fa fa-caret-right"></i></a>
+                                    {% endif %}
                                 </label>
                             </div>
                             <!-- Page Count End -->

@@ -1,10 +1,13 @@
 {% extends "main/base.html" %}
 {% load static %}
+{% block title %}
+Search Results
+{% endblock %}
 
 
 {% block content %}
         <!-- Page Header Start -->
-        <div class="page--header pt--60 pb--60 text-center" data-bg-img="img/page-header-img/bg.jpg" data-overlay="0.85">
+        <div class="page--header pt--60 pb--60 text-center" data-bg-img="{% static 'img/logo.jpeg' %}" data-overlay="0.85">
             <div class="container">
                 <div class="title">
                     <h2 class="h1 text-white">Search Results</h2>
@@ -27,8 +30,7 @@
                                     <div class="product--item" data-scroll-reveal="bottom">
                                         <!-- Product Image Start -->
                                         <div class="product--img">
-                                            <img src="{% static 'img/products-img/img-01-normal.jpg' %}" alt="">
-                                            <img src="{% static 'img/products-img/img-01-hover.jpg' %}" alt="">
+                                            <img src="{{ material.image.url }}" alt="">
 
                                             <div class="action">
                                                 <a href="{{ material.get_absolute_url }}">
@@ -43,13 +45,13 @@
                                         <div class="product--info text-center">
                                             <div class="cat">
                                                 <p>
-                                                    <a href="#" class="btn-link">{{ material.course_code }}</a>
+                                                    <a class="btn-link">{{ material.course_code }}</a>
                                                 </p>
                                             </div>
 
                                             <div class="title">
                                                 <h3 class="h6">
-                                                    <a href="course.html" class="btn-link">{{ material.name }}</a>
+                                                    <a href="{{ material.get_absolute_url }}" class="btn-link">{{ material.name }}</a>
                                                 </h3>
                                             </div>
 
@@ -74,12 +76,15 @@
                             <div class="page--count pb--30">
                                 <label class="ff--primary fs--14 fw--500 text-darker">
                                     <span>Viewing</span>
+                                    {% if materials.has_previous %}
+                                    <a href="?page={{ materials.previous_page_number }}" class="btn-link"><i class="fa fa-caret-left"></i></a>
+                                    {% endif %}
 
-                                    <a href="#" class="btn-link"><i class="fa fa-caret-left"></i></a>
-                                    <input type="number" name="page-count" value="01" class="form-control form-sm">
-                                    <a href="#" class="btn-link"><i class="fa fa-caret-right"></i></a>
-
-                                    <span>of 28</span>
+                                    <input type="number" name="page-count" value="{{ materials.number }}" class="form-control form-sm">
+                                    
+                                    {% if materials.has_next %}
+                                    <a href="?page={{ materials.next_page_number }}" class="btn-link"><i class="fa fa-caret-right"></i></a>
+                                    {% endif %}
                                 </label>
                             </div>
                             <!-- Page Count End -->

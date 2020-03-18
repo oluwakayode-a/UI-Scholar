@@ -23,6 +23,17 @@ class University(models.Model):
     class Meta:
         verbose_name_plural = 'universities'
 
+
+class Message(models.Model):
+    name = models.CharField(max_length=500)
+    email = models.EmailField()
+    subject = models.CharField(max_length=500)
+    message = models.TextField()
+    time_stamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"message by {self.name}"
+
 class Faculty(models.Model):
     name = models.CharField(max_length=200)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
@@ -74,10 +85,11 @@ class Material(models.Model):
     ]
 
     name = models.CharField(max_length=500)
+    image = models.ImageField(upload_to='course_images/')
     slug = models.SlugField(blank=True)
     desc = models.CharField(max_length=2000)
     course_code = models.CharField(max_length=20)
-    file_path = models.FileField(blank=True)
+    file_path = models.FileField()
     added_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
     time_stamp = models.DateTimeField(auto_now_add=True)
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
@@ -110,4 +122,11 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review by {self.user.username}"
+
+
+class Subscriber(models.Model):
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.email
     

@@ -1,16 +1,19 @@
 {% extends "main/base.html" %}
-
+{% load static %}
+{% block title %}
+  {{ category.name }}
+{% endblock title %}
 {% block content %}
         <!-- Page Header Start -->
         <div class="page--header pt--60 pb--60 text-center" data-bg-img="img/page-header-img/bg.jpg" data-overlay="0.85">
             <div class="container">
                 <div class="title">
-                    <h2 class="h1 text-white">Blog</h2>
+                    <h2 class="h1 text-white">{{ category.name }}</h2>
                 </div>
 
                 <ul class="breadcrumb text-gray ff--primary">
-                    <li><a href="index.html" class="btn-link">Home</a></li>
-                    <li class="active"><span class="text-primary">Blog</span></li>
+                    <li><a href="/" class="btn-link">Home</a></li>
+                    <li class="active"><span class="text-primary">{{ category.name }}</span></li>
                 </ul>
             </div>
         </div>
@@ -30,7 +33,7 @@
                                     <div class="post--item" data-scroll-reveal="bottom">
                                         <!-- Post Image Start -->
                                         <div class="post--img">
-                                            <a href="{{ post.get_absolute_url }}"><img src="img/posts-img/post-item-01.jpg" alt=""></a>
+                                            <a href="{{ post.get_absolute_url }}"><img src="{{ post.image.url }}" alt=""></a>
                                         </div>
                                         <!-- Post Image End -->
 
@@ -41,8 +44,8 @@
                                                 <ul class="nav">
                                                     <li>
                                                         <a href="#">
-                                                            <img src="img/posts-img/avatar-small-01.jpg" alt="">
-                                                            <span>Robbie T. Poorman</span>
+                                                            <img src="{% static 'img/posts-img/avatar-small-01.jpg' %}" alt="">
+                                                            <span>{{ post.author.get_full_name }}</span>
                                                         </a>
                                                     </li>
                                                     <li>
@@ -54,7 +57,7 @@
                                                     <li>
                                                         <a href="#">
                                                             <i class="mr--8 fa fa-comments-o"></i>
-                                                            <span>0 Comment</span>
+                                                            <span>{{ post.number_of_comments }} Comment{{ post.number_of_comments | pluralize}}</span>
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -69,19 +72,6 @@
                                             </div>
                                             <!-- Post Title End -->
 
-                                            <!-- Post Meta Start -->
-                                            <div class="post--meta">
-                                                <ul class="nav">
-                                                    <li>
-                                                        <i class="mr--8 fa fa-tags"></i>
-
-                                                        <a href="#"><span>Lifestyle</span></a>
-                                                        <a href="#"><span>Study</span></a>
-                                                        <a href="#"><span>Walkout</span></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <!-- Post Meta End -->
 
                                             <!-- Post Content Start -->
                                             <div class="post--content text-darker mt--10">
@@ -106,13 +96,17 @@
                                     <div class="page--count">
                                         <label class="ff--primary fs--14 fw--500 text-darker">
                                             <span>Viewing</span>
-
-                                            <a href="#" class="btn-link"><i class="fa fa-caret-left"></i></a>
-                                            <input type="number" name="page-count" value="01" class="form-control form-sm">
-                                            <a href="#" class="btn-link"><i class="fa fa-caret-right"></i></a>
-
-                                            <span>of 68</span>
+                                            {% if posts.has_previous %}
+                                            <a href="?page={{ posts.previous_page_number }}" class="btn-link"><i class="fa fa-caret-left"></i></a>
+                                            {% endif %}
+        
+                                            <input type="number" name="page-count" value="{{ posts.number }}" class="form-control form-sm">
+                                            
+                                            {% if posts.has_next %}
+                                            <a href="?page={{ posts.next_page_number }}" class="btn-link"><i class="fa fa-caret-right"></i></a>
+                                            {% endif %}
                                         </label>
+                                        
                                     </div>
                                     <!-- Page Count End -->
                                 </div>
@@ -124,63 +118,21 @@
                     <!-- Main Sidebar Start -->
                     <div class="main--sidebar col-md-4 pb--60" data-trigger="stickyScroll">
                         <!-- Widget Start -->
-                        <div class="widget">
-                            <h2 class="h4 fw--700 widget--title">Find A Blog</h2>
-
-                            <!-- Buddy Finder Widget Start -->
-                            <div class="buddy-finder--widget">
-                                <form action="{% url 'blog:category' %}" method="GET">
-                                    <div class="row">
-                                        <div class="col-xs-12 col-xxs-12">
-                                            <div class="form-group">
-                                                <label>
-                                                    <span class="text-darker ff--primary fw--500">Category</span>
-                                                    <select name="category" class="form-control form-sm" data-trigger="selectmenu">
-                                                        {% for category in categories %}
-                                                        <option value="{{ category.name }}">{{ category.name }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xs-12">
-                                            <button type="submit" class="btn btn-primary">Search</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- Buddy Finder Widget End -->
-                        </div>
                         <!-- Widget End -->
                         <!-- Widget Start -->
                         <div class="widget">
-                            <h2 class="h4 fw--700 widget--title">Archives</h2>
+                            <h2 class="h4 fw--700 widget--title">Categories</h2>
 
                             <!-- Nav Widget Start -->
                             <div class="nav--widget">
                                 <ul class="nav">
+                                    {% for category in categories %}
                                     <li>
-                                        <a href="#">
-                                            <i class="fa fa-calendar-o"></i>
-                                            <span class="text">Jan - July 2017</span>
-                                            <span class="count">(86)</span>
+                                        <a href="{{ category.get_absolute_url }}">
+                                            <span class="text">{{ category.name }}</span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-calendar-o"></i>
-                                            <span class="text">Jan - Dce 2016</span>
-                                            <span class="count">(328)</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-calendar-o"></i>
-                                            <span class="text">Jan - Dec 2015</span>
-                                            <span class="count">(427)</span>
-                                        </a>
-                                    </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                             <!-- Nav Widget End -->
@@ -194,7 +146,7 @@
                             <!-- Ad Widget Start -->
                             <div class="ad--widget">
                                 <a href="#">
-                                    <img src="img/widgets-img/ad.jpg" alt="" class="center-block">
+                                    <img src="{% static 'img/ad_03.jpeg' %}" alt="" class="center-block">
                                 </a>
                             </div>
                             <!-- Ad Widget End -->

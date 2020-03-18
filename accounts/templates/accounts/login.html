@@ -1,4 +1,7 @@
 {% extends "main/base.html" %}
+{% block title %}
+Login
+{% endblock %}
 {% block content %}
         <!-- Page Header Start -->
         <div class="page--header pt--60 pb--60 text-center" data-bg-img="img/page-header-img/bg.jpg" data-overlay="0.85">
@@ -55,7 +58,15 @@
 
                                         <a href="{% url 'accounts:register' %}" class="btn-link mt--20">No account yet? Register</a>
                                         &nbsp;&nbsp;|&nbsp;&nbsp;
-                                        <a href="forget.html" class="btn-link mt--20">Forgot Your Password?</a>
+                                        <a href="{% url 'accounts:password_reset' %}" class="btn-link mt--20">Forgot Your Password?</a>
+
+                                        <br><br>Sign in with
+                                        <div class="social">
+                                            <ul class="nav">
+                                                <li><a href="{% url 'social:begin' 'facebook' %}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                                <li><a href="{% url 'social:begin' 'google-oauth2' %}" target="_blank"><i class="fa fa-google"></i></a></li>
+                                            </ul>
+                                        </div>
                                     </form>
                                 </div>
                             </div>

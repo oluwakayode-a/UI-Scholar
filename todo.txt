@@ -1,4 +1,21 @@
-.social login
-.pictures on blog
-.ads
-.profile [phone_number]
+.social login (done)
+.pictures on blog (done)
+.ads(done)
+.profile [phone_number] (done)
+.fix profile on new user register. (done)
+.fix blog layout. (done)
+.add required attribute to each field in the edit profile form (done)
+.fix logo (done)
+.make banner image static. (done)
+.link comments to logged in user alone. (done)
+.make file-path in course a required field (done)
+.add search functionality to index page. (done)
+.contact form and functionality (done)
+.subscribe form and model (done)
+.add twitter (done)
+.illustrations on index page. (done)
+.correct author names on blog (done)
+.blog sidebar (done)
+.pagination (done)
+.add admin style theme and ckeditor (done)
+.make title dynamic (done)
